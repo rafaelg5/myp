@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="proyecto1" default="proyecto1.jar" basedir="." >
+<project name="grapher" default="grapher.jar" basedir="." >
 
   <property name="build.dir" value="build" />
   <property name="src.dir"   value="src" />
   <property name="lib.dir"   value="lib" />
   <property name="doc.dir"   value="doc" />
 
-  <target name="proyecto1.jar" depends="compile.proyecto1">
-    <jar jarfile="proyecto1.jar">
+  <target name="grapher.jar" depends="compile.grapher">
+    <jar jarfile="grapher.jar">
       <zipfileset dir="${build.dir}" prefix="" />
       <manifest>
-        <attribute name="Main-Class" value="Graficador"/>
+        <attribute name="Main-Class" value="myp.Grapher"/>
       </manifest>
     </jar>
   </target>
 
-  <target name="compile.proyecto1">
+  <target name="compile.grapher">
     <mkdir dir="${build.dir}"/>
     <javac srcdir="${src.dir}"
            destdir="${build.dir}"
@@ -33,9 +33,9 @@
     </javac>
   </target>
 
-  <target name="doc" depends="proyecto1.jar">
+  <target name="doc" depends="grapher.jar">
     <mkdir dir="${doc.dir}"/>
-    <javadoc packagenames="*"
+    <javadoc packagenames="myp.*"
              sourcepath="src"
              defaultexcludes="yes"
              destdir="${doc.dir}"
@@ -54,12 +54,12 @@
   </target>
 
   <target name="clean">
-    <delete file="proyecto1.jar"/>
+    <delete file="grapher.jar"/>
     <delete dir="${build.dir}"/>
     <delete dir="${doc.dir}"/>
   </target>
 
-  <target name="test" depends="proyecto1.jar">
+  <target name="test" depends="grapher.jar">
     <junit printsummary="yes" haltonfailure="no">
       <formatter type="plain" usefile="false" />
       <classpath>
