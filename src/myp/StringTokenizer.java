@@ -1,8 +1,11 @@
 package myp;
 
+import java.util.NoSuchElementException;
+import java.util.ArrayList;
+
 public class StringTokenizer{
     
-    private Token[] tokens;
+    private ArrayList<Token> tokens;
     private int index;        
 
     /**
@@ -11,7 +14,8 @@ public class StringTokenizer{
      */
     public StringTokenizer(String expression){	
 	index = 0;
-	tokens = tokenize(expression);
+	tokens = new ArrayList<Token>();
+	tokenize(expression);	
     }	
 
     /**
@@ -23,7 +27,7 @@ public class StringTokenizer{
      * 
      */    
     public int countTokens(){
-	return 0;
+	return tokens.size() - index;
     }
     
     /**
@@ -33,8 +37,8 @@ public class StringTokenizer{
      * después de la posición actual; <tt>falso</tt> en otro caso.
      * 
      */    
-    public boolean hasMoreTokens(){
-	return false;
+    public boolean hasMoreTokens(){     
+	return index < tokens.size();
     }
 
     /**
@@ -46,7 +50,10 @@ public class StringTokenizer{
      * 
      */    
     public Token nextToken(){
-	return null;
+	if(!hasMoreTokens())
+	    throw new NoSuchElementException("No hay más elementos");
+	
+	return tokens.get(index++);
     }
 
     /**
@@ -55,7 +62,7 @@ public class StringTokenizer{
      * 
      */
     public void start(){
-
+	index = 0;
     }
     
     /**
@@ -66,7 +73,118 @@ public class StringTokenizer{
      * @return la cadena tokenizada
      * 
      */    
-    private Token[] tokenize(String expression){
-	return null;
+    private void tokenize(String expression){
+	expression = expression.toLowerCase();
+	for(int i = 0; i < expression.length(); i++){
+	    char c = expression.charAt(i);
+	    if(c == ' ')
+		continue; 	    
+
+	    Token token;
+	    
+	    //Agregar un número al ArrayList
+	    if(Character.isDigit(c)){		
+		String s = expression.substring(i + 1), s2 = "" + c;
+		for(int j = 0; j < s.length(); j++){
+		    
+		    char c2 = s.charAt(j);
+
+		    if(Character.isDigit(c2)){
+			s2 += c2;
+			i++;
+			continue;
+		    }
+			
+		    else if(c2 == '.' && s2.indexOf('.') == -1
+			    && Character.isDigit(s.charAt(j+1))){
+			s2 += c2;
+			i++;
+			continue;
+		    }
+		    break;
+		}		
+		token = new Token(s2, Token.TokenType.NUMBER,0,0);
+		tokens.add(token);
+		continue;
+	    }
+
+	    
+	    //Agregar operadores al ArrayList
+	    
+	    switch(c){
+	    case '+':
+		token = new Token(""+c, Token.TokenType.OPERATOR,1,2);
+		tokens.add(token);
+		continue;
+	    case '-':
+		token = new Token(""+c, Token.TokenType.OPERATOR,1,2);
+		tokens.add(token);
+		continue;
+	    case '*':
+		token = new Token(""+c, Token.TokenType.OPERATOR,1,3);
+		tokens.add(token);
+		continue;
+	    case '/':
+		token = new Token(""+c, Token.TokenType.OPERATOR,1,3);
+		tokens.add(token);
+		continue;
+	    case '^':
+		token = new Token(""+c, Token.TokenType.OPERATOR,2,4);
+		tokens.add(token);
+		continue;
+	    case '(':
+		token = new Token(""+c, Token.TokenType.LEFT_PARENTHESIS,0,0);
+		tokens.add(token);
+		continue;		
+	    case ')':
+		token = new Token(""+c, Token.TokenType.RIGHT_PARENTHESIS,0,0);
+		tokens.add(token);
+		continue;		
+	    case 'x':
+		token = new Token(""+c, Token.TokenType.VARIABLE,0,0);
+		tokens.add(token);
+		continue;				
+	    }	    
+	
+	    //Agregar funciones al ArrayList
+	    if(i + 2 < expression.length()){
+		switch(c){
+		    
+		case 'c':
+		    String func = expression.substring(i, i + 3);
+		    if(func.equals("cos") || func.equals("cot") ||
+		       func.equals("csc")){
+			token = new Token(func, Token.TokenType.FUNCTION, 0,0); 
+			tokens.add(token);
+			i+=2;
+		    }
+		    continue;
+			
+		case 's':
+		    func = expression.substring(i, i + 3);
+		    if(func.equals("sin") || func.equals("sec") ||
+		       func.equals("sqr")){
+			token = new Token(func, Token.TokenType.FUNCTION, 0,0); 
+			tokens.add(token);
+			i+=2;
+		    }
+		    continue;
+		    
+		case 't':
+		    func = expression.substring(i, i + 3);
+		    if(func.equals("tan")){
+			token = new Token(func, Token.TokenType.FUNCTION, 0,0); 
+			tokens.add(token);
+			i+=2;
+		    }
+		    continue;
+		}
+	    }
+
+	    /* Agrega un caracter que no está definido en la gramática,
+	     * asignando su tipo a UNKOWN
+	     */
+	    tokens.add(new Token(""+c, Token.TokenType.UNKNOWN, 0, 0));
+	}
     }
 }

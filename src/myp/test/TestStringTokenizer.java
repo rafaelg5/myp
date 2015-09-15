@@ -23,7 +23,7 @@ public class TestStringTokenizer {
 
     private final String badStr = "5 *x 8/. + 34";
     
-    private final String[] tokBadStr = {"5","*","8","/",".","+","34"};
+    private final String[] tokBadStr = {"5","*","x","8","/",".","+","34"};
     
     /**
      * Prueba unitaria para el constructor 
@@ -31,15 +31,15 @@ public class TestStringTokenizer {
      */
     @Test 
     public void testStringTokenizer() {
+
         StringTokenizer st = new StringTokenizer(str);	
 	int length = 0;
-	
-	while(st.hasMoreTokens()){
-	    st.nextToken();
+	while(st.hasMoreTokens()){	    
+	    Token t = st.nextToken();	    
 	    length++;
 	}
 	Assert.assertTrue(tokStr.length == length);
-	
+        
 	st.start();
 	int i = 0;
 	while(st.hasMoreTokens()){
@@ -47,13 +47,14 @@ public class TestStringTokenizer {
 	    Assert.assertTrue(token.getElement().equals(tokStr[i]));
 	    i++;
 	}
-	
+		
 	st.start();
 	while(st.hasMoreTokens()){
 	    Token token = st.nextToken();
 	    Assert.assertFalse(token.getType() == Token.TokenType.UNKNOWN);
-	}	        
-	
+	}
+
+
 	st = new StringTokenizer(badStr);
 	length = 0;	
 	while(st.hasMoreTokens()){
@@ -70,6 +71,7 @@ public class TestStringTokenizer {
 	    Assert.assertTrue(token.getElement().equals(tokBadStr[i]));
 	    i++;
 	}
+	
 	
 	st.start();
 	boolean isUnknown = false;
@@ -91,7 +93,7 @@ public class TestStringTokenizer {
     public void testCountTokens() {
         StringTokenizer st = new StringTokenizer(str);	
 	int count = tokStr.length;        
-
+	
 	while(st.hasMoreTokens()){
 	    Assert.assertTrue(st.countTokens() == count--);
 	    st.nextToken();
@@ -117,6 +119,7 @@ public class TestStringTokenizer {
      */
     @Test 
     public void testNextToken() {
+	
         StringTokenizer st = new StringTokenizer(str);
 	
 	int i = 0;
@@ -124,6 +127,6 @@ public class TestStringTokenizer {
 	    Token token = st.nextToken();	    
 	    Assert.assertTrue(token.getElement().equals(tokStr[i]));
 	    i++;
-	}	
+	}
     }
 }
