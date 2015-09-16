@@ -23,12 +23,14 @@ public class Token {
     }    
 
     private final Operator OPERATORS[] = {    
-	new Operator(2, OperatorArity.BINARY, OperatorAssociativity.RIGHT),	
-	new Operator(3, OperatorArity.UNARY, OperatorAssociativity.RIGHT),
-	new Operator(4, OperatorArity.BINARY, OperatorAssociativity.LEFT),
-	new Operator(4, OperatorArity.BINARY, OperatorAssociativity.LEFT),    
-	new Operator(5, OperatorArity.BINARY, OperatorAssociativity.LEFT),
-	new Operator(5, OperatorArity.BINARY, OperatorAssociativity.LEFT),
+	/* ^ */
+	new Operator(5, OperatorArity.BINARY, OperatorAssociativity.RIGHT),	
+	/* - */
+	new Operator(4, OperatorArity.UNARY, OperatorAssociativity.RIGHT),
+	/* mult  y / */
+	new Operator(3, OperatorArity.BINARY, OperatorAssociativity.LEFT),   
+	/* +  y - */
+	new Operator(2, OperatorArity.BINARY, OperatorAssociativity.LEFT)
     };
     
     public enum OperatorArity{UNARY, BINARY}
