@@ -76,7 +76,7 @@ public class StringTokenizer{
     private void tokenize(String expression){
 	expression = expression.toLowerCase();
 	for(int i = 0; i < expression.length(); i++){
-	    char c = expression.charAt(i);
+	    char c = expression.charAt(i);	    
 	    if(c == ' ')
 		continue; 	    
 	    
@@ -173,8 +173,9 @@ public class StringTokenizer{
 			token = new Token(func, Token.TokenType.FUNCTION); 
 			tokens.add(token);
 			i+=2;
+			continue;
 		    }
-		    continue;
+		    break;
 			
 		case 's':
 		    func = expression.substring(i, i + 3);
@@ -183,8 +184,9 @@ public class StringTokenizer{
 			token = new Token(func, Token.TokenType.FUNCTION); 
 			tokens.add(token);
 			i+=2;
+			continue;
 		    }
-		    continue;
+		    break;
 		    
 		case 't':
 		    func = expression.substring(i, i + 3);
@@ -192,15 +194,19 @@ public class StringTokenizer{
 			token = new Token(func, Token.TokenType.FUNCTION); 
 			tokens.add(token);
 			i+=2;
+			continue;
 		    }
-		    continue;
+		    break;
 		}
 	    }
 
 	    /* Agrega un caracter que no está definido en la gramática,
 	     * asignando su tipo a UNKOWN
 	     */
-	    tokens.add(new Token(""+c, Token.TokenType.UNKNOWN));
+
+	    String aux = expression.substring(i, expression.indexOf(' ', i));   
+	    tokens.add(new Token(aux, Token.TokenType.UNKNOWN));
+	    i += aux.length();
 	}
     }
 }

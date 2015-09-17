@@ -13,7 +13,7 @@ public class TestToken {
 
     private final String s = "2156.1255 ( ) sgsh x sin cos tan cot sec csc "+ 
 	"sqr ^ - * / + -";
-    private final String[] sT = {"2156.1255","(",")","asgsh","x",
+    private final String[] sT = {"2156.1255","(",")","sgsh","x",
 				"sin","cos","tan","cot","sec","csc","sqr", 
 				"^","-", "*","/","+","-"};  
     
@@ -26,7 +26,7 @@ public class TestToken {
 	StringTokenizer st = new StringTokenizer(s);
 	int i = 0;
 	while(st.hasMoreTokens()){
-	    Token t = st.nextToken();
+	    Token t = st.nextToken();	    
 	    Assert.assertTrue(t.getElement().equals(sT[i]));
 	    i++;	    
 	}
@@ -140,8 +140,8 @@ public class TestToken {
 
 	    if(i == 12 || i == 13)
 	       oA = Token.OperatorAssociativity.RIGHT;
-
-	    oA = Token.OperatorAssociativity.LEFT;
+	    else
+		oA = Token.OperatorAssociativity.LEFT;
 
 	    Assert.assertTrue(t.getOperatorAssociativity() == oA);
 	    if(i != 14 && i != 16){

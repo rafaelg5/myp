@@ -52,7 +52,8 @@ public class Token {
      * @param t el tipo de token.
      */
     public Token(String e, TokenType t){
-        
+        element = e;
+	type = t;
     }
     
     /**
@@ -63,7 +64,11 @@ public class Token {
      * @param i el tipo de operador que es el token.
      */
     public Token(String e, TokenType t, int i){
-	
+	element = e;
+	type = t;
+	    
+	if(t == TokenType.OPERATOR)	    
+	    operator = OPERATORS[i];
     }
 
     /**
@@ -71,7 +76,7 @@ public class Token {
      * @return el elemento.
      */
     public String getElement(){
-	return null;
+	return this.element;
     }
 
     /**
@@ -79,7 +84,7 @@ public class Token {
      * @return el tipo del token.
      */
     public TokenType getType(){
-	return null;
+	return this.type;
     }
 
     /**
@@ -87,7 +92,7 @@ public class Token {
      * @return <tt>true</tt> si es operador, <tt>false</tt> en otro caso.
      */
     public boolean isOperator(){
-	return false;
+	return operator != null;
     }    
 
     /**
@@ -95,7 +100,10 @@ public class Token {
      * @return la precedencia del operador.
      */
     public int getOperatorPrecedence(){
-	return -1;
+	if(operator == null)
+	    throw new IllegalArgumentException("Este token no es un operador");
+	
+	return operator.precedence;
     }
 
     
@@ -104,7 +112,10 @@ public class Token {
      * @return la aridad.
      */
     public OperatorArity getOperatorArity(){
-	return null;
+	if(operator == null)
+	    throw new IllegalArgumentException("Este token no es un operador");
+
+	return operator.arity;
     }
 
     
@@ -113,7 +124,10 @@ public class Token {
      * @return la asociatividad.
      */
     public OperatorAssociativity getOperatorAssociativity(){
-	return null;
+	if(operator == null)
+	    throw new IllegalArgumentException("Este token no es un operador");
+
+	return operator.associativity;
     }
 }
 
