@@ -10,13 +10,13 @@ public class StringTokenizer{
 
     /**
      * Constructor que recibe una cadena.
-     * @param la cadena que se va a 'tokenizar'.
+     * @param expression la cadena que se va a 'tokenizar'.
      */
     public StringTokenizer(String expression){	
 	index = 0;
 	tokens = new ArrayList<Token>();
 	tokenize(expression);	
-    }	
+    }	 
 
     /**
      * Calcula el número de veces que el método 
@@ -79,16 +79,34 @@ public class StringTokenizer{
 	    char c = expression.charAt(i);
 	    if(c == ' ')
 		continue; 	    
-
-	    Token token;
 	    
+	    Token token;	        
+	    
+	    /*
+	    //Caso para expresiones negativas
+	    if(c == '-' && i + 1 < expression.length()){
+		if(i - 1 > 0 && 
+		   tokens.get(i - 1).getType() != Token.TokenType.NUMBER){
+		
+		    char c2 = expression.charAt(i + 1);
+		
+		    if(Character.isDigit(c2) || c2 == 'x'){
+			token = new Token("-1",Token.TokenType.NUMBER,0,0);
+			tokens.add(token);		    
+			token = new Token("*",Token.TokenType.OPERATOR,1,3);
+			tokens.add(token);
+		    }		
+		    continue;
+		}
+	    }*/
+		
 	    //Agregar un número al ArrayList
 	    if(Character.isDigit(c)){		
 		String s = expression.substring(i + 1), s2 = "" + c;
 		for(int j = 0; j < s.length(); j++){
 		    
 		    char c2 = s.charAt(j);
-
+		    
 		    if(Character.isDigit(c2)){
 			s2 += c2;
 			i++;
@@ -103,45 +121,43 @@ public class StringTokenizer{
 		    }
 		    break;
 		}		
-		token = new Token(s2, Token.TokenType.NUMBER,0,0);
+		token = new Token(s2, Token.TokenType.NUMBER);
 		tokens.add(token);
 		continue;
-	    }
-
+	    }		
 	    
-	    //Agregar operadores al ArrayList
-	    
+	    //Agregar operadores al ArrayList	    
 	    switch(c){
 	    case '+':
-		token = new Token(""+c, Token.TokenType.OPERATOR,1,2);
+		token = new Token(""+c, Token.TokenType.OPERATOR,3);
 		tokens.add(token);
 		continue;
 	    case '-':
-		token = new Token(""+c, Token.TokenType.OPERATOR,1,2);
+		token = new Token(""+c, Token.TokenType.OPERATOR,3);
 		tokens.add(token);
 		continue;
 	    case '*':
-		token = new Token(""+c, Token.TokenType.OPERATOR,1,3);
+		token = new Token(""+c, Token.TokenType.OPERATOR,2);
 		tokens.add(token);
 		continue;
 	    case '/':
-		token = new Token(""+c, Token.TokenType.OPERATOR,1,3);
+		token = new Token(""+c, Token.TokenType.OPERATOR,2);
 		tokens.add(token);
 		continue;
 	    case '^':
-		token = new Token(""+c, Token.TokenType.OPERATOR,2,4);
+		token = new Token(""+c, Token.TokenType.OPERATOR,0);
 		tokens.add(token);
 		continue;
 	    case '(':
-		token = new Token(""+c, Token.TokenType.LEFT_PARENTHESIS,0,0);
+		token = new Token(""+c, Token.TokenType.LEFT_PARENTHESIS);
 		tokens.add(token);
 		continue;		
 	    case ')':
-		token = new Token(""+c, Token.TokenType.RIGHT_PARENTHESIS,0,0);
+		token = new Token(""+c, Token.TokenType.RIGHT_PARENTHESIS);
 		tokens.add(token);
 		continue;		
 	    case 'x':
-		token = new Token(""+c, Token.TokenType.VARIABLE,0,0);
+		token = new Token(""+c, Token.TokenType.VARIABLE);
 		tokens.add(token);
 		continue;				
 	    }	    
@@ -154,7 +170,7 @@ public class StringTokenizer{
 		    String func = expression.substring(i, i + 3);
 		    if(func.equals("cos") || func.equals("cot") ||
 		       func.equals("csc")){
-			token = new Token(func, Token.TokenType.FUNCTION, 0,0); 
+			token = new Token(func, Token.TokenType.FUNCTION); 
 			tokens.add(token);
 			i+=2;
 		    }
@@ -164,7 +180,7 @@ public class StringTokenizer{
 		    func = expression.substring(i, i + 3);
 		    if(func.equals("sin") || func.equals("sec") ||
 		       func.equals("sqr")){
-			token = new Token(func, Token.TokenType.FUNCTION, 0,0); 
+			token = new Token(func, Token.TokenType.FUNCTION); 
 			tokens.add(token);
 			i+=2;
 		    }
@@ -173,7 +189,7 @@ public class StringTokenizer{
 		case 't':
 		    func = expression.substring(i, i + 3);
 		    if(func.equals("tan")){
-			token = new Token(func, Token.TokenType.FUNCTION, 0,0); 
+			token = new Token(func, Token.TokenType.FUNCTION); 
 			tokens.add(token);
 			i+=2;
 		    }
@@ -184,7 +200,7 @@ public class StringTokenizer{
 	    /* Agrega un caracter que no está definido en la gramática,
 	     * asignando su tipo a UNKOWN
 	     */
-	    tokens.add(new Token(""+c, Token.TokenType.UNKNOWN, 0, 0));
+	    tokens.add(new Token(""+c, Token.TokenType.UNKNOWN));
 	}
     }
 }

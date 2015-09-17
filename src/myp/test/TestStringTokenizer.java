@@ -2,7 +2,6 @@ package myp.test;
 
 import myp.StringTokenizer;
 import myp.Token;
-import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,10 +12,10 @@ import org.junit.Test;
 public class TestStringTokenizer {
 
     private final String str = 
-	"4*x^3 - 3*x^2 + 2*x -(cos(x)/sqr(3*x - 2)) + tan(x)^2";
+	"-4*x^3 - 3*x^2 + 2*x -(cos(x)/sqr(3*x - 2)) + tan(x)^2";
     
     private final String[] tokStr = 
-    {"4","*","x","^","3","-","3","*","x","^","2","+",
+    {"-1","*","4","*","x","^","3","-","3","*","x","^","2","+",
      "2","*","x","-","(","cos","(","x",")","/","sqr",
      "(","3","*","x","-","2",")",")","+","tan","(",
      "x",")","^","2"};
