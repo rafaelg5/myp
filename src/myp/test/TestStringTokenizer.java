@@ -128,4 +128,17 @@ public class TestStringTokenizer {
 	    i++;
 	}
     }
+
+    /**
+     * Prueba unitaria para {@link StringTokenizer#getToken}.
+     */
+    @Test 
+    public void testGetToken() {
+        StringTokenizer st = new StringTokenizer(str);
+	int i = 0;
+	for(String s : tokStr){
+	    Token t = st.getToken(i++);
+	    Assert.assertTrue(t.getElement().equals(s));
+	}        
+    }
 }

@@ -55,6 +55,23 @@ public class StringTokenizer{
 	
 	return tokens.get(index++);
     }
+    
+    /**
+     * Regresa el token de en la posición indicada.
+     *
+     * @param index el índice de la posición del token.
+     * @return el token. 
+     *
+     * @throws IndexOutOfBoundsException si index < 0 ó index >= tamaño del 
+     * tokenizador.
+     * 
+     */ 
+    public Token getToken(int index){
+	if(index < 0 || index >= tokens.size())
+	    throw new IndexOutOfBoundsException("Índice inválido");
+	    
+	return tokens.get(index);
+    }
 
     /**
      *
