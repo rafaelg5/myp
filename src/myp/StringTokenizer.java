@@ -80,36 +80,26 @@ public class StringTokenizer{
 	    if(c == ' ')
 		continue; 	    
 	    
-	    Token token;	        
-	    
-	    /*
-	    //Caso para expresiones negativas
-	    if(c == '-' && i + 1 < expression.length()){
-		if(i - 1 > 0 && 
-		   tokens.get(i - 1).getType() != Token.TokenType.NUMBER){
-		
-		    char c2 = expression.charAt(i + 1);
-		
-		    if(Character.isDigit(c2) || c2 == 'x'){
-			token = new Token("-1",Token.TokenType.NUMBER,0,0);
-			tokens.add(token);		    
-			token = new Token("*",Token.TokenType.OPERATOR,1,3);
-			tokens.add(token);
-		    }		
-		    continue;
-		}
-	    }*/
-		
+	    Token token;	    
 	    //Agregar un número al ArrayList
-	    if(Character.isDigit(c)){		
+
+	    if(Character.isDigit(c) || 
+	       (c == '.' && i + 1 < expression.length() && 
+		Character.isDigit(expression.charAt(i+1)))){
+			
 		String s = expression.substring(i + 1), s2 = "" + c;
-		for(int j = 0; j < s.length(); j++){
-		    
+		char cAux = c;	
+		
+		for(int j = 0; j < s.length(); j++){	
+			
 		    char c2 = s.charAt(j);
+		    if(c2 == ' ')
+			break;
 		    
 		    if(Character.isDigit(c2)){
 			s2 += c2;
 			i++;
+			cAux = c2;
 			continue;
 		    }
 			
@@ -117,14 +107,19 @@ public class StringTokenizer{
 			    && Character.isDigit(s.charAt(j+1))){
 			s2 += c2;
 			i++;
+			cAux = c2;
 			continue;
 		    }
 		    break;
-		}		
-		token = new Token(s2, Token.TokenType.NUMBER);
-		tokens.add(token);
-		continue;
-	    }		
+		}
+
+		if(Character.isDigit(cAux)){		 
+		    token = new Token(s2, Token.TokenType.NUMBER);
+		    tokens.add(token);
+		    continue;
+		}
+	    }
+	    
 	    
 	    //Agregar operadores al ArrayList	    
 	    switch(c){
@@ -133,8 +128,8 @@ public class StringTokenizer{
 		tokens.add(token);
 		continue;
 	    case '-':
-		token = new Token(""+c, Token.TokenType.OPERATOR,3);
-		tokens.add(token);
+		token = new Token(""+c, Token.TokenType.OPERATOR,1);
+		tokens.add(token);				
 		continue;
 	    case '*':
 		token = new Token(""+c, Token.TokenType.OPERATOR,2);
@@ -203,10 +198,19 @@ public class StringTokenizer{
 	    /* Agrega un caracter que no está definido en la gramática,
 	     * asignando su tipo a UNKOWN
 	     */
-
-	    String aux = expression.substring(i, expression.indexOf(' ', i));   
-	    tokens.add(new Token(aux, Token.TokenType.UNKNOWN));
-	    i += aux.length();
+	    
+	    String s = expression.substring(i + 1), s2 = "" + c;
+	    
+	    for(int j = 0; j < s.length(); j++){
+		
+		char c2 = s.charAt(j);		
+		if(c2 == ' ')
+		    break;
+		
+		s2 += c2;		
+		i++;
+	    }			    
+	    tokens.add(new Token(s2, Token.TokenType.UNKNOWN));	    
 	}
     }
 }

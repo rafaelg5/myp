@@ -12,11 +12,11 @@ import org.junit.Test;
 public class TestStringTokenizer {
 
     private final String str = 
-	"-4*x^3 - 3*x^2 + 2*x -(cos(x)/sqr(3*x - 2)) + tan(x)^2";
+	"-4*x^3 - 3*x^2 + 22*x -(cos(x)/sqr(3*x - 2)) + tan(x)^2";
     
     private final String[] tokStr = 
-    {"-1","*","4","*","x","^","3","-","3","*","x","^","2","+",
-     "2","*","x","-","(","cos","(","x",")","/","sqr",
+    {"-","4","*","x","^","3","-","3","*","x","^","2","+",
+     "22","*","x","-","(","cos","(","x",")","/","sqr",
      "(","3","*","x","-","2",")",")","+","tan","(",
      "x",")","^","2"};
 
@@ -42,7 +42,7 @@ public class TestStringTokenizer {
 	st.start();
 	int i = 0;
 	while(st.hasMoreTokens()){
-	    Token token = st.nextToken();
+	    Token token = st.nextToken();	    
 	    Assert.assertTrue(token.getElement().equals(tokStr[i]));
 	    i++;
 	}
@@ -60,7 +60,7 @@ public class TestStringTokenizer {
 	    st.nextToken();
 	    length++;
 	}
-
+	
 	Assert.assertTrue(tokBadStr.length == length);
 	
 	st.start();
@@ -93,7 +93,7 @@ public class TestStringTokenizer {
         StringTokenizer st = new StringTokenizer(str);	
 	int count = tokStr.length;        
 	
-	while(st.hasMoreTokens()){
+	while(st.hasMoreTokens()){	    
 	    Assert.assertTrue(st.countTokens() == count--);
 	    st.nextToken();
 	}

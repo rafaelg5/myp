@@ -26,7 +26,7 @@ public class TestToken {
 	StringTokenizer st = new StringTokenizer(s);
 	int i = 0;
 	while(st.hasMoreTokens()){
-	    Token t = st.nextToken();	    
+	    Token t = st.nextToken();	    	    
 	    Assert.assertTrue(t.getElement().equals(sT[i]));
 	    i++;	    
 	}
