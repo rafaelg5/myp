@@ -64,6 +64,9 @@ public class Token {
      * @param i el tipo de operador que es el token.
      */
     public Token(String e, TokenType t, int i){
+	if(i < 0 || i > 3)
+	    throw new IllegalArgumentException("Índice invalido");
+	
 	element = e;
 	type = t;
 	    
@@ -93,7 +96,19 @@ public class Token {
      */
     public boolean isOperator(){
 	return operator != null;
-    }    
+    }
+
+    /**
+     * Cambia el tipo de operador de un token.     
+     *
+     * @param i el índice para cambiar al operador.
+     */
+    public void setOperator(int i){
+	if(i < 0 || i > 3)
+	    throw new IllegalArgumentException("Índice invalido");        
+	
+	this.operator = OPERATORS[i];
+    }
 
     /**
      * Regresa la precedencia del operador.

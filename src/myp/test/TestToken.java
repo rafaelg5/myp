@@ -88,6 +88,28 @@ public class TestToken {
     }
 
     /**
+     * Prueba unitaria para {@link Token#setOperator}.
+     */
+    @Test 
+    public void testSetOperator() {
+	
+	Token token = new Token("-",Token.TokenType.OPERATOR, 3);
+	
+	Assert.assertTrue(token.getOperatorPrecedence() == 2);	
+	Assert.assertTrue(token.getOperatorArity()==Token.OperatorArity.BINARY);
+	Assert.assertTrue(token.getOperatorAssociativity() ==
+			  Token.OperatorAssociativity.LEFT);
+	
+	token.setOperator(1);
+	
+	Assert.assertTrue(token.getOperatorPrecedence() == 4);	
+	Assert.assertTrue(token.getOperatorArity() ==Token.OperatorArity.UNARY);
+	Assert.assertTrue(token.getOperatorAssociativity() ==
+			  Token.OperatorAssociativity.RIGHT);
+        
+    }    
+
+    /**
      * Prueba unitaria para {@link Token#getOperatorPrecedence}.
      */
     @Test 
