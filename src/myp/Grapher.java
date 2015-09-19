@@ -1,15 +1,17 @@
 package myp;
 
-import java.util.Random;
-import java.text.ParseException;
+import javax.swing.SwingUtilities;
 
 public class Grapher{
     public static void main(String[] args){
-	StringTokenizer st = new StringTokenizer("2*x+1");
-	Parser p = new Parser(st);
-	try{
-	    for(String s : p.infixToPostfix())
-		System.out.println(s);
-	}catch(ParseException pe){}
+
+	SwingUtilities.invokeLater(new Runnable() {
+		@Override
+		public void run(){
+		    final Graph graph = new Graph("Graficador");
+		    graph.setSize(660,620);
+		    graph.setVisible(true);
+		}
+	    });	
     }    
 }

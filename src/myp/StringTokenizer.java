@@ -145,7 +145,7 @@ public class StringTokenizer{
 		tokens.add(token);
 		continue;
 	    case '-':
-		token = new Token(""+c, Token.TokenType.OPERATOR,1);
+		token = new Token(""+c, Token.TokenType.OPERATOR,3);
 		tokens.add(token);				
 		continue;
 	    case '*':
