@@ -26,6 +26,9 @@ public class Parser{
     public Token[] infixToPostfix() throws ParseException{
 	int countParentheses = countParentheses(), 
 	    length = st.countTokens() - countParentheses;	    
+
+	if(length <= 0)
+	    throw new ParseException("Teclee una función válida!", 0);
 	    
 	Token[] sT = new Token[length];	
 	String error = "Verificar la función", 

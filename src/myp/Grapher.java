@@ -8,9 +8,7 @@ public class Grapher{
 	SwingUtilities.invokeLater(new Runnable() {
 		@Override
 		public void run(){
-		    final Graph graph = new Graph("Graficador");
-		    graph.setSize(660,620);
-		    graph.setVisible(true);
+		    new Graph("Graficador");
 		}
 	    });	
     }    

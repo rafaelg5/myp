@@ -23,9 +23,9 @@ public class TestParser {
      "x",")","^","2"};
 
     private final String[] postfix = 
-    {"4","-","x","3","^","3","-","*","x","2","^","*","2",
-     "x","x","cos","3","x","2","-","*","sqr","/","-",
-     "*","+","x","tan","2","^","+"};
+    {"4","-","x","3","^","*","3","x","2","^","*","-","2",
+     "x","*","+","x","cos","3","x","*","2","-","sqr",
+     "/","-","x","tan","2","^","+"};
 
     private final String badStr = "5 *x 8/. + 34";
     private final String badStr2 = "(3 *4)*x + )";
@@ -44,8 +44,9 @@ public class TestParser {
 	try{
 	    s = p.infixToPostfix();
 	    Assert.assertTrue(s.length == postfix.length);
-	    for(int i = 0; i < s.length; i++)
+	    for(int i = 0; i < s.length; i++)		
 		Assert.assertTrue(s[i].getElement().equals(postfix[i]));	
+	    
 	}catch(ParseException pe){}	
 	
 	StringTokenizer st2;

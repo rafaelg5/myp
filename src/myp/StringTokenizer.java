@@ -91,6 +91,9 @@ public class StringTokenizer{
      * 
      */    
     private void tokenize(String expression){
+	if(expression.trim().equals(""))
+	    return;
+	
 	expression = expression.toLowerCase();
 	for(int i = 0; i < expression.length(); i++){
 	    char c = expression.charAt(i);	    
