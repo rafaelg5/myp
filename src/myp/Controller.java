@@ -55,22 +55,26 @@ public class Controller {
 
             if (type == Token.TokenType.FUNCTION) {
                 Token t1 = stack.pop();
-                stack.push(operate(s.getElement(), t1.getElement(), "0", i));
+                stack.push(operate(s.getElement(), t1.getElement(), "0.0", i));
                 continue;
             }
         }
-        return Double.parseDouble(stack.pop().getElement());
+	Token t = stack.pop();
+	if(t.getType() == Token.TokenType.VARIABLE)
+	    return i;
+	
+	    
+        return Double.parseDouble(t.getElement());
     }
 
     private Token operate(String operand, String o1, String o2, double x){
 	
 	double x1 = o1.equals("x") ? x : Double.parseDouble(o1),
 	    x2 = 0.0;
-
         
-        if (!o2.equals("")) {
+        if (!o2.equals("")) 
             x2 = o2.equals("x") ? x : Double.parseDouble(o2);
-        }
+        
         double res = 0.0;
         switch (operand) {
 	case "+":

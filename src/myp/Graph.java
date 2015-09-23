@@ -124,7 +124,7 @@ public class Graph extends JFrame implements ChangeListener{
 		    } else {
 			setMinMaxValues();
 			getXY(minX, maxX, minY, maxY);
-			repaint();
+			update(getGraphics());
 		    }
 		}
 	    });
@@ -142,7 +142,7 @@ public class Graph extends JFrame implements ChangeListener{
 		    spinnerY2.setValue((Object)(10));
 		    setMinMaxValues();
 		    getXY(minX, maxX, minY, maxY);
-		    repaint();
+		    update(getGraphics());
 		}
 	    });
 
@@ -170,7 +170,7 @@ public class Graph extends JFrame implements ChangeListener{
 			return;
 		    
 		    getXY(minX, maxX, minY, maxY);
-		    repaint();
+		    update(getGraphics());
 		    
 		}
 	    });
@@ -194,11 +194,11 @@ public class Graph extends JFrame implements ChangeListener{
 			return;
 		    
 		    getXY(minX, maxX, minY, maxY);
-		    repaint();
+		    update(getGraphics());
 
 		}
 	    });
-	
+
 	getContentPane().setPreferredSize(new Dimension(660, 620));	
 
 		FlowLayout f = new FlowLayout();
@@ -237,11 +237,14 @@ public class Graph extends JFrame implements ChangeListener{
 
 	Graphics2D g2d = (Graphics2D)g ;
 	
-	double gW = graphWidth / 2 + 10;
-	double gH = graphHeight / 2 + 40;
+	
 	double factorX = graphWidth / unitX;
 	double factorY = graphHeight / unitY;
 	
+	double gW = (Math.abs(minX) / (maxX - minX)) * graphWidth + 10;
+	double gH = graphHeight -
+	    ((Math.abs(minY) / (maxY - minY)) * graphHeight - 40);
+
 	drawPlane(g2d, (int)gW, (int)gH);
 
 	double x, y;
@@ -269,8 +272,10 @@ public class Graph extends JFrame implements ChangeListener{
 		continue;
 	    
 	    Shape l = 
-		new Line2D.Double((factorX * x1) + gW, (factorY * -y1) + gH, 
-				  (factorX * x2) + gW, (factorY * -y2) + gH);
+		new Line2D.Double((factorX * x1) + gW, 
+				  (factorY * -y1) + gH, 
+				  (factorX * x2) + gW, 
+				  (factorY * -y2) + gH);
 	    g2d.draw(l);
 	}
     }
@@ -280,19 +285,18 @@ public class Graph extends JFrame implements ChangeListener{
 	g2d.fillRect(10, 40, graphWidth - 1, graphHeight - 1);	
 	g2d.setColor(Color.BLACK);	
 	g2d.drawLine(10, o2, graphWidth + 9, o2);
-	g2d.drawLine(o1, 40 , o1, graphHeight + 39);	
+	g2d.drawLine(o1, 40 , o1, graphHeight + 39);		
     }
 
     private void getXY(double x1, double x2, double y1, double y2) {
-        
-        int noOfPoints = (int) ((x2 - x1) * graphWidth + 1);        		
+        	
 	if(c.getMessage() != null)
 	    return;
 
         for (; x1 <= x2; x1 += 0.01) {                     
 	    double y = c.evaluate(x1);	    
 	    if(y < y1 || y > y2)
-		continue;
+		continue;    
 
 	    coordinates.add(new Coordinates(x1, y));
         }	
@@ -310,13 +314,13 @@ public class Graph extends JFrame implements ChangeListener{
 	    s4 = 
 	    Double.parseDouble(spinnerY2.getModel().getValue().toString());
 
-	if(s1 > s2){
+	if(s1 > s2 || s1 == s2){
 	    JOptionPane.showMessageDialog(null, "Verificar los valores de X");
 	    return;
 	}
 
-	if(s3 > s4){
-	    JOptionPane.showMessageDialog(null, "Verificar los valores de X");
+	if(s3 > s4 || s3 == s4){
+	    JOptionPane.showMessageDialog(null, "Verificar los valores de Y");
 	    return;
 	}
 
@@ -328,7 +332,7 @@ public class Graph extends JFrame implements ChangeListener{
 	    return;
 
 	getXY(minX, maxX, minY, maxY);
-	repaint();
+	update(getGraphics());
     }
 
     private void setMinMaxValues(){
@@ -337,6 +341,8 @@ public class Graph extends JFrame implements ChangeListener{
 	maxX = Double.parseDouble(spinnerX2.getModel().getValue().toString());
 	minY = Double.parseDouble(spinnerY1.getModel().getValue().toString());
 	maxY = Double.parseDouble(spinnerY2.getModel().getValue().toString()); 
+	unitX = (int)(maxX - minX);
+	unitY = (int)(maxY - minY);
     }
 
     private void setGraphWidth(int value){
